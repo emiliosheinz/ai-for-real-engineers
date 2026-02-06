@@ -5,6 +5,7 @@ import type { Route } from "./+types/instructor.$courseId.lessons.$lessonId";
 import { getCourseById } from "~/services/courseService";
 import { getLessonById, updateLesson } from "~/services/lessonService";
 import { getModuleById } from "~/services/moduleService";
+import { getQuizByLessonId } from "~/services/quizService";
 import { getCurrentUserId } from "~/lib/session";
 import { getUserById } from "~/services/userService";
 import { UserRole } from "~/db/schema";
@@ -13,7 +14,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, ClipboardList, Save } from "lucide-react";
 import { data } from "react-router";
 
 export function meta({ data: loaderData }: Route.MetaArgs) {
@@ -71,7 +72,9 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     throw data("Lesson not found in this course.", { status: 404 });
   }
 
-  return { course, lesson, module: mod };
+  const quiz = getQuizByLessonId(lessonId);
+
+  return { course, lesson, module: mod, quiz };
 }
 
 export async function action({ params, request }: Route.ActionArgs) {
@@ -138,7 +141,7 @@ export async function action({ params, request }: Route.ActionArgs) {
 export default function InstructorLessonEditor({
   loaderData,
 }: Route.ComponentProps) {
-  const { course, lesson, module: mod } = loaderData;
+  const { course, lesson, module: mod, quiz } = loaderData;
   const fetcher = useFetcher();
 
   const [content, setContent] = useState(lesson.contentHtml ?? "");
@@ -267,6 +270,28 @@ export default function InstructorLessonEditor({
                 className="max-w-32"
               />
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Quiz */}
+        <Card>
+          <CardHeader>
+            <h2 className="text-lg font-semibold">Quiz</h2>
+            <p className="text-sm text-muted-foreground">
+              {quiz
+                ? `This lesson has a quiz: "${quiz.title}"`
+                : "No quiz attached to this lesson yet."}
+            </p>
+          </CardHeader>
+          <CardContent>
+            <Link
+              to={`/instructor/${course.id}/lessons/${lesson.id}/quiz`}
+            >
+              <Button variant="outline">
+                <ClipboardList className="mr-1.5 size-4" />
+                {quiz ? "Edit Quiz" : "Create Quiz"}
+              </Button>
+            </Link>
           </CardContent>
         </Card>
 

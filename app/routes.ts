@@ -10,6 +10,7 @@ export default [
   route("instructor/new", "routes/instructor.new.tsx"),
   route("instructor/:courseId", "routes/instructor.$courseId.tsx"),
   route("instructor/:courseId/lessons/:lessonId", "routes/instructor.$courseId.lessons.$lessonId.tsx"),
+  route("instructor/:courseId/lessons/:lessonId/quiz", "routes/instructor.$courseId.lessons.$lessonId.quiz.tsx"),
   route("instructor/:courseId/students", "routes/instructor.$courseId.students.tsx"),
   route("admin/users", "routes/admin.users.tsx"),
   route("admin/courses", "routes/admin.courses.tsx"),
