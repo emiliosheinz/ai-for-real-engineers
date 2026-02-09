@@ -7,6 +7,9 @@ import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
 import { AlertTriangle, BookOpen, Search, User } from "lucide-react";
 import { CourseImage } from "~/components/course-image";
+import { getCurrentUserId } from "~/lib/session";
+import { getUserEnrolledCourses } from "~/services/enrollmentService";
+import { calculateProgress, getCompletedLessonCount } from "~/services/progressService";
 
 export function meta() {
   return [
@@ -15,7 +18,7 @@ export function meta() {
   ];
 }
 
-export function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const search = url.searchParams.get("q");
   const category = url.searchParams.get("category");
@@ -29,10 +32,32 @@ export function loader({ request }: Route.LoaderArgs) {
     0
   );
 
-  const coursesWithLessonCount = courses.map((course) => ({
-    ...course,
-    lessonCount: getLessonCountForCourse(course.id),
-  }));
+  const currentUserId = await getCurrentUserId(request);
+
+  // Build a map of courseId -> progress for enrolled courses
+  const progressMap = new Map<
+    number,
+    { progress: number; completedLessons: number }
+  >();
+  if (currentUserId) {
+    const enrollments = getUserEnrolledCourses(currentUserId);
+    for (const enrollment of enrollments) {
+      progressMap.set(enrollment.courseId, {
+        progress: calculateProgress(currentUserId, enrollment.courseId, false, false),
+        completedLessons: getCompletedLessonCount(currentUserId, enrollment.courseId),
+      });
+    }
+  }
+
+  const coursesWithLessonCount = courses.map((course) => {
+    const userProgress = progressMap.get(course.id);
+    return {
+      ...course,
+      lessonCount: getLessonCountForCourse(course.id),
+      progress: userProgress?.progress ?? null,
+      completedLessons: userProgress?.completedLessons ?? null,
+    };
+  });
 
   const categories = getAllCategories();
 
@@ -170,6 +195,22 @@ export default function CourseCatalog({ loaderData }: Route.ComponentProps) {
                     {course.description}
                   </p>
                 </CardContent>
+                {course.progress !== null && course.progress > 0 && (
+                  <CardContent className="pt-0">
+                    <div className="mb-1 flex items-center justify-between text-xs">
+                      <span className="text-muted-foreground">
+                        {course.completedLessons} / {course.lessonCount} lessons
+                      </span>
+                      <span className="font-medium">{course.progress}%</span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                      <div
+                        className="h-full rounded-full bg-primary transition-all"
+                        style={{ width: `${course.progress}%` }}
+                      />
+                    </div>
+                  </CardContent>
+                )}
                 <CardFooter className="flex items-center justify-between text-xs text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <User className="size-3" />
