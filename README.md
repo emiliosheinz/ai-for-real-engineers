@@ -63,6 +63,8 @@ The cohort is split across 6 days of content:
 7. **Day 5: Ralph** — Agent automation, loops, background tasks
 8. **Day 6: Human in the Loop** — Kanban workflows, research, prototyping, architecture improvement
 
+You can find my notes of each day and classes [here](./notes.md).
+
 ## Navigating Lessons
 
 Each lesson that involves code has a starting commit and solution commits. To jump to any point:
