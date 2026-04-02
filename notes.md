@@ -88,4 +88,62 @@ Automatic memory is a feature of Claude Code that allows the model to remember i
 
 On the other hand though, there is also the risk of the model remembering incorrect information or getting confused by conflicting information. To mitigate this risk, it's important to regularly review and update the model's memory to ensure that it remains accurate and relevant.
 
+## Day 3: Planning
 
+Writing PRDs, multi-phase plans, tracer bullet development.
+
+### How to tackle massive tasks
+
+AIs can basically do massive tasks the same way humans do, we break it down into smaller portions and do them one by one, always staying withing the smart zone of the context window. To do this effectively, we can use a technique called "multi-phase planning", which involves creating a high-level plan for the entire task and then breaking it down into smaller, more manageable phases. Each phase can then be further broken down into specific tasks and subtasks, allowing us to stay organized and focused throughout the process.
+
+It all starts with a PRD.md (Product Requirement Document), which is a document that outlines the requirements and specifications for a specific feature or project. The PRD serves as a blueprint for the development process, providing a clear roadmap for implementation.
+
+We also need a PLAN.md, which is a document that outlines the plan for implementing the feature or project described in the PRD.md. The PLAN.md should include a breakdown of the tasks and subtasks needed to complete the project, as well as any relevant timelines or milestones. The PLAN.md serves as a guide for the development process, helping to ensure that everyone (agents) involved in the project is on the same page and working towards the same goals.
+
+### How to write great PRDs
+
+When writing a PRD, it's important to be clear and concise, while also providing enough detail to ensure that the requirements are well understood. We will usually want to use a skill like [this one](https://github.com/mattpocock/skills/blob/main/write-a-prd/SKILL.md) to help us structure and format our PRD effectively. Some of the key sections to include in a PRD are:
+
+- **Overview or problem statement**: A brief description of the problem or opportunity that the feature or project is addressing.
+
+- **Solution**: The solution to the problem, from the user's perspective.
+
+- **User Stories**: A list of user stories that describe the specific requirements and functionality of the feature or project.
+
+- **Implementation Details**: Any specific implementation details or technical requirements that need to be considered during development.
+
+- **Testing and Validation**: A description of how the feature or project will be tested and validated to ensure that it meets the requirements outlined in the PRD.
+
+- **Out of Scope**: A list of any features or functionality that are explicitly out of scope for the project, to help prevent scope creep and ensure that the project stays focused on its core objectives.
+
+### How to write great plans
+
+When writing a plan, it's important to break down the tasks into smaller, manageable steps and provide clear instructions for each step. We can use a skill like [this one](https://github.com/mattpocock/skills/blob/main/prd-to-plan/SKILL.md) which helps us to convert a PRD into a detailed plan.
+
+#### Tracer Bullet Development
+
+Tracer bullet development is a technique used to quickly create a working prototype of a feature or project. The idea is to create a "tracer bullet" that can be used to test the core functionality of the feature or project, without worrying about all the details and edge cases. This allows us to quickly iterate and refine the feature or project based on feedback and testing, while also staying within the smart zone of the context window.
+
+AI Agents tend to code things in horizontal slices, which means that they will often try to implement the entire backend, then the entire frontend, and then connect them together. This can lead to problems with the context window, as the model may get overwhelmed by the amount of information it needs to consider at once.
+
+![Horizontal slicing](./docs/images/horizontal-slices.png)
+
+But with tracer bullet development, we can instead focus on implementing a small, vertical slice of the project that includes both the frontend and backend components. This allows us to have feedback earlier on in the development process, allowing us to make adjustments and improvements based on that feedback, while also keeping the model within the smart zone of the context window.
+
+![Tracer bullet development](./docs/images/vertical-slices.png)
+
+### Executing a multi-phase plan
+
+To execute a multi-phase plan effectively, we can follow these steps:
+
+1. **Create a new session**: Start by creating a new session in Claude Code to ensure that we have a clean slate to work with.
+
+2. **Pass in the `PRD.md` and `PLAN.md`**: Provide the model with the `PRD.md` and `PLAN.md` documents to give it the necessary context and instructions for the project.
+
+3. **Execute a single phase of the plan**: Focus on executing a single phase of the plan at a time, breaking it down into smaller tasks and subtasks as needed.
+
+4. **Review the results**: After completing each phase, review the results to ensure that they meet the requirements outlined in the `PRD.md` and that they align with the overall goals of the project.
+
+5. **Commit the code**: Once we are satisfied with the results of the phase, commit the code to the repository to save our progress.
+
+6. **Repeat for the next phase**: Move on to the next phase of the plan and repeat the process until all phases are complete and the project is fully implemented.
