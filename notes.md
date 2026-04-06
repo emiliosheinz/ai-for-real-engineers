@@ -147,3 +147,51 @@ To execute a multi-phase plan effectively, we can follow these steps:
 5. **Commit the code**: Once we are satisfied with the results of the phase, commit the code to the repository to save our progress.
 
 6. **Repeat for the next phase**: Move on to the next phase of the plan and repeat the process until all phases are complete and the project is fully implemented.
+
+## Day 4: Feedback Loops
+
+Learn how to keep AI-generated code high quality by building feedback loops into your Claude Code workflow. From do-work skills and pre-commit hooks to test-driven development with red-green-refactor.
+
+### Code is cheap
+
+Matt doesn't buy the idea that AI makes code quality less important just because it can generate code quickly. If anything, it makes quality more critical. When he uses AI, he notices it leans heavily on whatever is already in the codebase—so if the structure is messy or inconsistent, it just amplifies that.
+
+He also sees how software naturally gets worse over time (entropy), and AI speeds that up by producing more changes without really improving the design. Since AI doesn’t truly understand the system or remember past context, it struggles a lot more than I would in a poorly structured codebase. That makes clean architecture and fast feedback loops even more important when working with AI.
+
+**Key takeaways:**
+
+- I should think of software quality as how easy it is to change the code
+- If I’m not careful, every change I make tends to make the codebase worse over time
+- AI increases the number of changes, but not the quality of them
+- AI copies patterns from the codebase, so bad patterns spread faster
+- A messy codebase hurts AI more than it hurts me
+- Investing in good structure and feedback loops pays off even more with AI
+
+### Steering Agents to Use Feedback Loops
+
+Feedback loops are a powerful technique for improving the quality of AI-generated code by providing the model with regular feedback on its output. This can help to identify and correct errors, improve the overall design and structure of the code, and ensure that the code meets the requirements outlined in the `PRD.md`.
+
+One of the options we have to introduce that into our workflow is by using a "do work" skill, which is a skill that provides instructions and guidelines for how the model should approach a specific task or feature. By including feedback loops in the "do work" skill, we can ensure that the model is regularly reviewing and improving its output based on the feedback it receives.
+
+#### Do work skill structure
+
+- Plan
+- Implement
+- Seek for feedback
+- Refactor
+- Repeat until the code is good enough
+- Commmit
+
+### Pre-commit hooks
+
+Pre-commit hooks are a powerful tool for ensuring that code meets certain quality standards before it is committed to the repository. They are usually avoided when only humans are working on a repo, as they can be a bit of a hassle, but when working with AI, they can be a lifesaver. By setting up pre-commit hooks that run tests, linters, or other quality checks, we can catch errors and issues before they make it into the codebase, helping to maintain a high level of code quality even as we rapidly iterate with AI.
+
+### Red Greem Refactor
+
+Red-green-refactor is a technique used in test-driven development (TDD) to ensure that code is thoroughly tested and of high quality. The process involves three steps:
+
+1. **Red**: Write a failing test that describes the desired functionality or behavior of the code. This step ensures that we have a clear understanding of what we want to achieve and that the test accurately captures the requirements.
+
+2. **Green**: Write the minimum amount of code necessary to make the test pass. This step focuses on implementing the functionality without worrying about code quality or design.
+
+3. **Refactor**: Once the test is passing, we can refactor the code to improve its design, structure, and readability while ensuring that the tests still pass. This step allows us to maintain a high level of code quality and ensure that our codebase remains clean and maintainable over time.
