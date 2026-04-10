@@ -26,7 +26,7 @@ Plan mode is a feature of Claude Code that allows us to create a plan for a spec
 
 ### Plan Execution Clear Loop
 
-The plan execution clear loop is a technique used to ensure that the model stays focused on the task at hand and doesn't get overwhelmed by the amount of information in the context window. 
+The plan execution clear loop is a technique used to ensure that the model stays focused on the task at hand and doesn't get overwhelmed by the amount of information in the context window.
 
 It involves executing the following steps:
 
@@ -62,7 +62,7 @@ Since your `AGENTS.md` is always going to be included in your context window, it
 
 ### Prograssive disclosure
 
-Progressive disclosure is a technique used to manage the amount of information in the context window by revealing information gradually as needed. This can be useful when we have a lot of information that we want to keep in the context window, but we don't want to overwhelm the model with too much information at once. 
+Progressive disclosure is a technique used to manage the amount of information in the context window by revealing information gradually as needed. This can be useful when we have a lot of information that we want to keep in the context window, but we don't want to overwhelm the model with too much information at once.
 
 In the `AGENTS.md` file, we can use progressive disclosure by organizing the information in a way that allows us to reveal more details as needed. For example, we can start with a high-level overview of the project and then provide links to more detailed sections for specific topics. This way, the model can focus on the most relevant information without getting overwhelmed by too much detail at once.
 
@@ -195,3 +195,31 @@ Red-green-refactor is a technique used in test-driven development (TDD) to ensur
 2. **Green**: Write the minimum amount of code necessary to make the test pass. This step focuses on implementing the functionality without worrying about code quality or design.
 
 3. **Refactor**: Once the test is passing, we can refactor the code to improve its design, structure, and readability while ensuring that the tests still pass. This step allows us to maintain a high level of code quality and ensure that our codebase remains clean and maintainable over time.
+
+## Day 5: Ralph
+
+Ralph is a powerful but simple workflow and technice that allows us to run Claude (or any other agent) in a loop, until it gets the plan done. Ralph is basically a bash loop:
+
+```bash
+while :; do cat PROMPT.md | claude ; done
+```
+
+This ensures that we stay in the smart zone of the context window, even though we are doing a lot of work, that requires several iterations.
+
+### HITL vs AFK 
+
+You can run Ralph in two modes: Human in the Loop (HITL) or Away from Keyboard (AFK). In HITL mode, you are actively involved in the loop, providing feedback and guidance to the model as it works through the plan. In AFK mode, you set up the loop and let it run without your involvement, allowing the model to work through the plan on its own.
+
+You can find an example of a HITL Ralph loop [here](./ralph/once.sh). And an example of an AFK Ralph loop [here](./ralph/afk.sh). Keep in mind that Ralph is a concept and technique, so the implementation may vary according to the specific use case and requirements of the projects you are working on.
+
+### Sandboxing
+
+In order to run the AFK Ralph loop, we need to run Claude with the `--dangerously-skip-permissions` flag, which allows the model to execute code without any restrictions. This can be dangerous if not used carefully, as it can potentially allow the model to execute destructive commands. To mitigate this risk, it's important to run the AFK Ralph loop in a sandboxed environment, such as a Docker container or a virtual machine, to ensure that any potential harm is contained and does not affect the rest of the system.
+
+Sandboxing AI Agents is something that is not fully solved yet, but one of the best approaches we have currently is Docker Sandboxes: https://docs.docker.com/ai/sandboxes/. It allows us to run AI Coding Agents in isoled microVM sandboxes, providing a high level of security while still allowing the model to execute code and perform tasks effectively.
+
+### Using Backlogs to Queue Tasks for Ralph
+
+When working with Ralph, especially in AFK mode, it can be helpful to use a backlog to queue up tasks for the model to work on. This allows us to organize and prioritize the tasks that we want the model to focus on, ensuring that it is working on the most important and relevant tasks at any given time.
+
+The best part of it is that this can happen in paralell, while you are working on other things, or even reviewing the results of previous tasks that Ralph has completed, Ralph can be continuously working through the backlog.
